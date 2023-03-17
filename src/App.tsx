@@ -1,13 +1,16 @@
 import React from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Home from 'pages/Home/Home'
+import { Sidebar } from 'components'
 
-function App () {
+const App = () => {
   return (
     <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Home />} />
-      </Routes>
+      <Sidebar>
+        <Routes>
+          <Route path="/" element={<Home />} />
+        </Routes>
+      </Sidebar>
     </BrowserRouter>
   )
 }
