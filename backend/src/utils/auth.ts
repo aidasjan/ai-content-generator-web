@@ -23,8 +23,8 @@ export const getJwtStrategy = () => {
       User.findById(jwtPayload.sub)
         .populate('role')
         .then((user) => {
-          if (user) {
-            done(null, user)
+          if (user?.id) {
+            done(null, { id: user.id ?? '', ...user })
           } else {
             done(null, false)
           }

@@ -4,10 +4,8 @@ const userSchema = new mongoose.Schema({
   email: String,
   name: String,
   password: String,
-  role: {
-    type: Schema.Types.ObjectId,
-    ref: 'Role'
-  },
+  role: { type: Schema.Types.ObjectId, ref: 'Role' },
+  results: [{ type: Schema.Types.ObjectId, ref: 'Result' }],
   createdAt: { type: Date, default: Date.now }
 })
 

@@ -51,3 +51,7 @@ export const registerUser = async (userData: User, password: string) => {
 
   await user.save()
 }
+
+export const deleteUser = async (id: string) => {
+  return await UserModel.findByIdAndDelete(id)
+}

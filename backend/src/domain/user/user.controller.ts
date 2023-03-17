@@ -1,5 +1,5 @@
 import { type Errback, type Request, type Response } from 'express'
-import { registerUser, getAllUsers, loginUser } from './user.service'
+import { registerUser, getAllUsers, loginUser, deleteUser } from './user.service'
 
 export const getAll = (req: Request, res: Response, next: Errback) => {
   getAllUsers()
@@ -27,6 +27,14 @@ export const login = (req: Request, res: Response, next: Errback) => {
         res.json({ error: 'Authentication failed' })
       }
     })
+    .catch((err) => {
+      next(err)
+    })
+}
+
+export const deleteSingle = (req: Request, res: Response, next: Errback) => {
+  deleteUser(req.params.id)
+    .then(() => res.json({ message: 'Deleted' }))
     .catch((err) => {
       next(err)
     })
