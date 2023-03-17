@@ -1,7 +1,13 @@
-import mongoose from 'mongoose'
+import mongoose, { Schema } from 'mongoose'
 
 const userSchema = new mongoose.Schema({
+  email: String,
   name: String,
+  password: String,
+  role: {
+    type: Schema.Types.ObjectId,
+    ref: 'Role'
+  },
   createdAt: { type: Date, default: Date.now }
 })
 

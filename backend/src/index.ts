@@ -6,6 +6,7 @@ import { getJwtStrategy } from './utils/auth'
 import appRouter from './routes'
 import { connectToDb } from './utils/db'
 import { errorHandler } from './utils/errors'
+import { seedDb } from './utils/seed/seedRunner'
 
 const main = async () => {
   dotenv.config()
@@ -17,6 +18,8 @@ const main = async () => {
 
   await connectToDb()
 
+  await seedDb()
+
   passport.use(getJwtStrategy())
 
   app.use('/api', appRouter)
@@ -25,10 +28,10 @@ const main = async () => {
 
   const port = process.env.PORT
   app.listen(port, () => {
-    console.log(`[server]: Server is running at port ${port}`)
+    console.log(`Server is running at port ${port}`)
   })
 }
 
-main().catch(e => {
+main().catch((e) => {
   console.error(e)
 })
