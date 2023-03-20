@@ -1,13 +1,13 @@
 import { Router } from 'express'
 import { categoryRouter } from '../domain/category'
 import { propertyRouter } from '../domain/property'
-import { resultRouter } from '../domain/result'
+import { contentRouter } from '../domain/content'
 import { userRouter } from '../domain/user'
 
 const router = Router()
 
 router.use('/users', userRouter)
-router.use('/results', resultRouter)
+router.use('/content', contentRouter)
 router.use('/categories', categoryRouter)
 router.use('/properties', propertyRouter)
 

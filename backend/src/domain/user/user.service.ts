@@ -3,9 +3,10 @@ import { type User } from './types'
 import UserModel from './user.model'
 import bcrypt from 'bcrypt'
 import { getRoleByCode } from '../role/role.service'
+import { type Role } from '../role/types'
 
 const findUserByEmail = (email: string) => {
-  return UserModel.findOne({ email })
+  return UserModel.findOne({ email }).populate('role')
 }
 
 export const getAllUsers = () => {
@@ -15,7 +16,7 @@ export const getAllUsers = () => {
 export const loginUser = async (email: string, password: string) => {
   const user = await findUserByEmail(email)
 
-  if (!user?.password) {
+  if (!user?.password || !user?.role) {
     return null
   }
 
@@ -35,7 +36,12 @@ export const loginUser = async (email: string, password: string) => {
     jwtSecret
   )
 
-  return token
+  return {
+    name: user.name,
+    email: user.email,
+    role: (user.role as any as Role).code,
+    token
+  }
 }
 
 export const registerUser = async (userData: User, password: string) => {

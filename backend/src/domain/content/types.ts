@@ -1,6 +1,6 @@
 import { type ObjectId } from 'mongoose'
 
-export interface Result {
+export interface Content {
   title: string
   content: string
   prompt: string

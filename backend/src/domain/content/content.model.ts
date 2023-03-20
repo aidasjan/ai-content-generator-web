@@ -11,6 +11,6 @@ const userSchema = new mongoose.Schema({
   createdAt: { type: Date, default: Date.now }
 })
 
-const ResultModel = mongoose.model('Result', userSchema)
+const ContentModel = mongoose.model('Content', userSchema)
 
-export default ResultModel
+export default ContentModel

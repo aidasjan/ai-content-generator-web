@@ -1,11 +1,12 @@
 import { type Request, type Response } from 'express'
 import passport from 'passport'
 import { Strategy as JwtStrategy, ExtractJwt } from 'passport-jwt'
+import { type Role } from '../domain/role/types'
 import User from '../domain/user/user.model'
 
 const requireRole =
   (code: string) => (req: Request, res: Response, next: any) => {
-    if ((req.user as any)?.role?.code === code) {
+    if (req.user?.role === code) {
       next()
     } else {
       res.status(401)
@@ -24,7 +25,12 @@ export const getJwtStrategy = () => {
         .populate('role')
         .then((user) => {
           if (user?.id) {
-            done(null, { id: user.id ?? '', ...user })
+            done(null, {
+              id: user.id ?? '',
+              role: (user.role as any as Role).code,
+              name: user.name,
+              email: user.email
+            })
           } else {
             done(null, false)
           }

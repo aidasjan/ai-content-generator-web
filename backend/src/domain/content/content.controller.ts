@@ -1,14 +1,15 @@
 import { type Errback, type Request, type Response } from 'express'
 import {
-  getResult,
-  getPublicResults,
-  getUserResults,
-  addResult,
-  deleteResult
-} from './result.service'
+  getContent,
+  getPublicContents,
+  getUserContents,
+  addContents,
+  deleteContent,
+  createContent
+} from './content.service'
 
 export const getSingle = (req: Request, res: Response, next: Errback) => {
-  getResult(req.params.id)
+  getContent(req.params.id)
     .then((users) => res.json(users))
     .catch((err) => {
       next(err)
@@ -16,7 +17,7 @@ export const getSingle = (req: Request, res: Response, next: Errback) => {
 }
 
 export const getAllPublic = (req: Request, res: Response, next: Errback) => {
-  getPublicResults()
+  getPublicContents()
     .then((users) => res.json(users))
     .catch((err) => {
       next(err)
@@ -24,7 +25,7 @@ export const getAllPublic = (req: Request, res: Response, next: Errback) => {
 }
 
 export const getAllByUser = (req: Request, res: Response, next: Errback) => {
-  getUserResults(req.user?.id)
+  getUserContents(req.user?.id)
     .then((result) => res.json(result))
     .catch((err) => {
       next(err)
@@ -32,7 +33,7 @@ export const getAllByUser = (req: Request, res: Response, next: Errback) => {
 }
 
 export const addNew = (req: Request, res: Response, next: Errback) => {
-  addResult(req.body)
+  addContents(req.body)
     .then((result) => res.json(result))
     .catch((err) => {
       next(err)
@@ -40,8 +41,16 @@ export const addNew = (req: Request, res: Response, next: Errback) => {
 }
 
 export const deleteSingle = (req: Request, res: Response, next: Errback) => {
-  deleteResult(req.params.id)
+  deleteContent(req.params.id)
     .then(() => res.json({ message: 'Deleted' }))
+    .catch((err) => {
+      next(err)
+    })
+}
+
+export const create = (req: Request, res: Response, next: Errback) => {
+  createContent(req.body.category, req.body.properties, req.body.keywords)
+    .then((result) => res.json({ result }))
     .catch((err) => {
       next(err)
     })

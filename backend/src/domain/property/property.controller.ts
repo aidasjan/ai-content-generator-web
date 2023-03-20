@@ -1,12 +1,12 @@
 import { type Errback, type Request, type Response } from 'express'
 import {
-  getAllCategories,
+  getAllProperties,
   addProperty,
   deleteProperty
 } from './property.service'
 
 export const getAll = (req: Request, res: Response, next: Errback) => {
-  getAllCategories()
+  getAllProperties()
     .then((result) => res.json(result))
     .catch((err) => {
       next(err)
