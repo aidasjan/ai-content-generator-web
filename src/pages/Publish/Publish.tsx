@@ -13,10 +13,10 @@ const Publish = () => {
   const [content, setContent] = useState<Content | null>(null)
 
   useEffect(() => {
-    fetchCategories()
+    fetchContent()
   }, [])
 
-  const fetchCategories = async () => {
+  const fetchContent = async () => {
     setIsLoading(true)
     const id = params.id
     if (id) {

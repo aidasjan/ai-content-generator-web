@@ -5,6 +5,7 @@ const userSchema = new mongoose.Schema({
   content: String,
   prompt: String,
   isPublic: Boolean,
+  keywords: [String],
   user: { type: Schema.Types.ObjectId, ref: 'User' },
   category: { type: Schema.Types.ObjectId, ref: 'Category' },
   properties: [{ type: Schema.Types.ObjectId, ref: 'Property' }],

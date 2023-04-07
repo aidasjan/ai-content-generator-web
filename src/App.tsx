@@ -10,6 +10,8 @@ import Properties from 'pages/Properties/Properties'
 import Users from 'pages/Users/Users'
 import Create from 'pages/Create/Create'
 import Publish from 'pages/Publish/Publish'
+import Blog from 'pages/Blog/Blog'
+import BlogContent from 'pages/BlogContent/BlogContent'
 
 const App = () => {
   return (
@@ -27,34 +29,26 @@ const App = () => {
           />
           <Route
             path="/categories"
-            element={
-              <RequireAuth roles={['admin']} element={<Categories />} />
-            }
+            element={<RequireAuth roles={['admin']} element={<Categories />} />}
           />
           <Route
             path="/properties"
-            element={
-              <RequireAuth roles={['admin']} element={<Properties />} />
-            }
+            element={<RequireAuth roles={['admin']} element={<Properties />} />}
           />
           <Route
             path="/users"
-            element={
-              <RequireAuth roles={['admin']} element={<Users />} />
-            }
+            element={<RequireAuth roles={['admin']} element={<Users />} />}
           />
           <Route
             path="/create"
-            element={
-              <RequireAuth roles={['user']} element={<Create />} />
-            }
+            element={<RequireAuth roles={['user']} element={<Create />} />}
           />
           <Route
-            path="/content/:id/publish"
-            element={
-              <RequireAuth roles={['user']} element={<Publish />} />
-            }
+            path="/contents/:id/publish"
+            element={<RequireAuth roles={['user']} element={<Publish />} />}
           />
+          <Route path="/blog" element={<Blog />} />
+          <Route path="/blog/:id" element={<BlogContent />} />
         </Routes>
       </Sidebar>
     </BrowserRouter>

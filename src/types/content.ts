@@ -8,7 +8,8 @@ export interface Content {
   content: string
   prompt: string
   isPublic: boolean
+  keywords: string[]
   user: User
-  property: Property
+  properties: Property[]
   category: Category
 }

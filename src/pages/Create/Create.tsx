@@ -153,7 +153,7 @@ const Create = () => {
                   </Box>
                 ))}
                 <Box textAlign="center">
-                  <Link to={`/content/${contentId}/publish`}>
+                  <Link to={`/contents/${contentId}/publish`}>
                     <Button colorScheme="blue" mt={4}>
                       Publish Results
                     </Button>

@@ -11,7 +11,7 @@ import { authenticate, requireUser } from '../../utils/auth'
 
 const router = Router()
 
-router.route('/:id').get(authenticate(), requireUser(), getSingle)
+router.route('/:id').get(getSingle)
 router.route('/').get(getAllPublic)
 router.route('/user').post(authenticate(), requireUser(), getAllByUser)
 router.route('/:id/publish').post(authenticate(), requireUser(), publish)

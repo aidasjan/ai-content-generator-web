@@ -6,10 +6,16 @@ import ContentModel from './content.model'
 
 export const getContent = (id: string) => {
   return ContentModel.findById(id)
+    .populate('user')
+    .populate('category')
+    .populate('properties')
 }
 
 export const getPublicContents = () => {
   return ContentModel.find({ isPublic: true })
+    .populate('user')
+    .populate('category')
+    .populate('properties')
 }
 
 export const getUserContents = async (userId: string | undefined) => {
@@ -42,6 +48,7 @@ export const createContent = async (
 ) => {
   const category = await getCategory(categoryId)
   const properties = await getManyProperties(propertyIds)
+  const trimmedKeywords = keywords.map((keyword) => keyword.trim())
 
   if (!category?.title || !properties || !user) {
     return null
@@ -51,7 +58,11 @@ export const createContent = async (
     .map((p) => p.title ?? '')
     .filter((p) => p !== '')
 
-  const prompt = await generatePrompt(category.title, propertyStrings, keywords)
+  const prompt = await generatePrompt(
+    category.title,
+    propertyStrings,
+    trimmedKeywords
+  )
 
   if (!prompt) {
     return null
@@ -63,6 +74,7 @@ export const createContent = async (
     properties,
     category,
     user: user.id,
+    keywords: trimmedKeywords,
     prompt,
     isPublic: false
   })
