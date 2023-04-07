@@ -15,25 +15,25 @@ const SidebarContent = ({ onClose }: SidebarProps) => {
     { title: 'Home', icon: 'fas fa-home', to: '/' },
     {
       title: 'Dashboard',
-      icon: 'fas fa-home',
+      icon: 'fas fa-gauge',
       to: '/dashboard',
       roles: [ADMIN_ROLE, USER_ROLE]
     },
     {
       title: 'Categories',
-      icon: 'fas fa-home',
+      icon: 'fas fa-list',
       to: '/categories',
       roles: [ADMIN_ROLE]
     },
     {
       title: 'Properties',
-      icon: 'fas fa-home',
+      icon: 'fas fa-tag',
       to: '/properties',
       roles: [ADMIN_ROLE]
     },
     {
       title: 'Users',
-      icon: 'fas fa-home',
+      icon: 'fas fa-user',
       to: '/users',
       roles: [ADMIN_ROLE]
     }

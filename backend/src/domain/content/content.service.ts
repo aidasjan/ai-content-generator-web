@@ -36,8 +36,6 @@ export const createContent = async (
   const category = await getCategory(categoryId)
   const properties = await getManyProperties(propertyIds)
 
-  console.log('properties', properties)
-
   if (!category || !properties) {
     return null
   }

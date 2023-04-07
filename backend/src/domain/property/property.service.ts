@@ -6,7 +6,6 @@ export const getAllProperties = () => {
 }
 
 export const getManyProperties = (ids: string[]) => {
-  console.log(ids)
   return PropertyModel.find({ _id: { $in: ids } })
 }
 
