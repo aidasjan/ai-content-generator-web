@@ -19,7 +19,7 @@ const NavItem = ({ children, icon, target }: NavItemProps) => {
         cursor="pointer"
         color="gray.500"
         _hover={{
-          color: 'orange.600'
+          color: 'blue.600'
         }}
       >
         <Text className={icon} w={8}></Text>

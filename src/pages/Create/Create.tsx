@@ -16,6 +16,7 @@ import { getCategories } from 'api/categories'
 import { getProperties } from 'api/properties'
 import { Container, Loader } from 'components'
 import { createContent } from 'api/content'
+import { Link } from 'react-router-dom'
 
 const Create = () => {
   const [isDataLoading, setIsDataLoading] = useState(false)
@@ -29,6 +30,7 @@ const Create = () => {
     null
   )
   const [isContentLoading, setIsContentLoading] = useState(false)
+  const [contentId, setContentId] = useState<string | null>(null)
   const [contentLines, setContentLines] = useState<string[] | null>(null)
 
   const fetchData = async () => {
@@ -64,12 +66,13 @@ const Create = () => {
       return
     }
     setIsContentLoading(true)
-    const content = await createContent(
+    const contentResponse = await createContent(
       selectedCategory,
       selectedProperties,
       selectedKeywords
     )
-    setContentLines(content.result.split('\n'))
+    setContentId(contentResponse.result._id)
+    setContentLines(contentResponse.result.content.split('\n'))
     setIsContentLoading(false)
   }
 
@@ -125,7 +128,7 @@ const Create = () => {
               </Box>
               <Box mt={12}>
                 <Heading>3. Add Keywords</Heading>
-                <Box my={6}>Type keywords by separating them using commas</Box>
+                <Box my={6}>Type keywords (separated by commas)</Box>
                 <Input
                   onChange={(e) => {
                     handleKeywordsChange(e.target.value)
@@ -142,10 +145,21 @@ const Create = () => {
             <Loader label="Your content is being generated. It might take up to 1 minute." />
           )}
           {contentLines && !isContentLoading && (
-            <Box bg="gray.200" p={8} mt={8}>
-              {contentLines.map((line) => (
-                <Box key={line} mb={3}>{line}</Box>
-              ))}
+            <Box my={8}>
+              <Box bg="gray.200" p={8}>
+                {contentLines.map((line) => (
+                  <Box key={line} mb={3}>
+                    {line}
+                  </Box>
+                ))}
+                <Box textAlign="center">
+                  <Link to={`/content/${contentId}/publish`}>
+                    <Button colorScheme="blue" mt={4}>
+                      Publish Results
+                    </Button>
+                  </Link>
+                </Box>
+              </Box>
             </Box>
           )}
         </>

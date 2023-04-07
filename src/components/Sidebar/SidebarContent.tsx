@@ -14,10 +14,21 @@ const SidebarContent = ({ onClose }: SidebarProps) => {
   const items = [
     { title: 'Home', icon: 'fas fa-home', to: '/' },
     {
+      title: 'Blog',
+      icon: 'fas fa-comment',
+      to: '/blog'
+    },
+    {
       title: 'Dashboard',
       icon: 'fas fa-gauge',
       to: '/dashboard',
       roles: [ADMIN_ROLE, USER_ROLE]
+    },
+    {
+      title: 'Create',
+      icon: 'fas fa-plus',
+      to: '/create',
+      roles: [USER_ROLE]
     },
     {
       title: 'Categories',

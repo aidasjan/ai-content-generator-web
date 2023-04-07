@@ -3,7 +3,7 @@ import {
   getContent,
   getPublicContents,
   getUserContents,
-  addContents,
+  publishContent,
   deleteContent,
   createContent
 } from './content.service'
@@ -32,8 +32,8 @@ export const getAllByUser = (req: Request, res: Response, next: Errback) => {
     })
 }
 
-export const addNew = (req: Request, res: Response, next: Errback) => {
-  addContents(req.body)
+export const publish = (req: Request, res: Response, next: Errback) => {
+  publishContent(req.params.id, req.body.title)
     .then((result) => res.json(result))
     .catch((err) => {
       next(err)
@@ -49,7 +49,12 @@ export const deleteSingle = (req: Request, res: Response, next: Errback) => {
 }
 
 export const create = (req: Request, res: Response, next: Errback) => {
-  createContent(req.body.category, req.body.properties, req.body.keywords)
+  createContent(
+    req.body.category,
+    req.body.properties,
+    req.body.keywords,
+    req.user
+  )
     .then((result) => res.json({ result }))
     .catch((err) => {
       next(err)

@@ -1,8 +1,8 @@
 import { generateContent } from '../../services/openAi'
 import { getCategory } from '../category'
+import { generatePrompt } from '../prompt'
 import { getManyProperties } from '../property'
 import ContentModel from './content.model'
-import { type Content } from './types'
 
 export const getContent = (id: string) => {
   return ContentModel.findById(id)
@@ -19,9 +19,15 @@ export const getUserContents = async (userId: string | undefined) => {
   return await ContentModel.find({ user: { id: userId } })
 }
 
-export const addContents = async (resultData: Content) => {
-  const result = new ContentModel(resultData)
-  await result.save()
+export const publishContent = async (id: string, title: string) => {
+  const existingContent = await ContentModel.findById(id)
+  if (existingContent) {
+    existingContent.title = title
+    existingContent.isPublic = true
+    await existingContent.save()
+    return existingContent
+  }
+  return null
 }
 
 export const deleteContent = (id: string) => {
@@ -31,26 +37,35 @@ export const deleteContent = (id: string) => {
 export const createContent = async (
   categoryId: string,
   propertyIds: string[],
-  keywords: string[]
+  keywords: string[],
+  user?: Express.User
 ) => {
   const category = await getCategory(categoryId)
   const properties = await getManyProperties(propertyIds)
 
-  if (!category || !properties) {
+  if (!category?.title || !properties || !user) {
     return null
   }
 
-  const prompt = `Create ${
-    category.title
-  } that has the following properties: ${properties
-    .map((property) => property.title)
-    .join(', ')}. The ${
-    category.title
-  } should include the following keywords: ${keywords.join(', ')}.`
+  const propertyStrings = properties
+    .map((p) => p.title ?? '')
+    .filter((p) => p !== '')
 
-  console.log('[prompt]', prompt)
+  const prompt = await generatePrompt(category.title, propertyStrings, keywords)
 
-  const result = await generateContent(prompt)
+  if (!prompt) {
+    return null
+  }
 
-  return result
+  const generatedContentValue = await generateContent(prompt)
+  const newContent = new ContentModel({
+    content: generatedContentValue,
+    properties,
+    category,
+    user: user.id,
+    prompt,
+    isPublic: false
+  })
+  newContent.save()
+  return newContent
 }

@@ -7,7 +7,7 @@ import { userRouter } from '../domain/user'
 const router = Router()
 
 router.use('/users', userRouter)
-router.use('/content', contentRouter)
+router.use('/contents', contentRouter)
 router.use('/categories', categoryRouter)
 router.use('/properties', propertyRouter)
 

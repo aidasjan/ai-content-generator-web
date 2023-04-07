@@ -9,6 +9,7 @@ import Categories from 'pages/Categories/Categories'
 import Properties from 'pages/Properties/Properties'
 import Users from 'pages/Users/Users'
 import Create from 'pages/Create/Create'
+import Publish from 'pages/Publish/Publish'
 
 const App = () => {
   return (
@@ -46,6 +47,12 @@ const App = () => {
             path="/create"
             element={
               <RequireAuth roles={['user']} element={<Create />} />
+            }
+          />
+          <Route
+            path="/content/:id/publish"
+            element={
+              <RequireAuth roles={['user']} element={<Publish />} />
             }
           />
         </Routes>
