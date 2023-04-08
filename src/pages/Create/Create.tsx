@@ -3,10 +3,12 @@ import {
   Box,
   Button,
   Checkbox,
+  Flex,
   Heading,
   Input,
   Menu,
   MenuButton,
+  MenuGroup,
   MenuItem,
   MenuList
 } from '@chakra-ui/react'
@@ -15,7 +17,7 @@ import { type Property } from 'types/property'
 import { getCategories } from 'api/categories'
 import { getProperties } from 'api/properties'
 import { Container, Loader } from 'components'
-import { createContent } from 'api/content'
+import { createContent, saveContent } from 'api/contents'
 import { Link } from 'react-router-dom'
 
 const Create = () => {
@@ -32,6 +34,25 @@ const Create = () => {
   const [isContentLoading, setIsContentLoading] = useState(false)
   const [contentId, setContentId] = useState<string | null>(null)
   const [contentLines, setContentLines] = useState<string[] | null>(null)
+
+  const getCategoryTitle = (categoryId: string) => {
+    if (!categories) {
+      return null
+    }
+    for (const category of categories) {
+      if (category._id === categoryId) {
+        return category.title
+      }
+      if (category.subcategories && category.subcategories.length > 0) {
+        const subcategory = category.subcategories.find(
+          (s) => s._id === categoryId
+        )
+        if (subcategory) {
+          return subcategory.title
+        }
+      }
+    }
+  }
 
   const fetchData = async () => {
     setIsDataLoading(true)
@@ -76,6 +97,13 @@ const Create = () => {
     setIsContentLoading(false)
   }
 
+  const handleSave = async () => {
+    if (!contentId) {
+      return
+    }
+    await saveContent(contentId)
+  }
+
   useEffect(() => {
     fetchData()
   }, [])
@@ -94,19 +122,40 @@ const Create = () => {
               as={Button}
               rightIcon={<Box className="fas fa-chevron-down" />}
             >
-              {categories.find((c) => c._id === selectedCategory)?.title ??
-                'Select Category'}
+              <>
+                {selectedCategory
+                  ? getCategoryTitle(selectedCategory)
+                  : 'Select Category'}
+              </>
             </MenuButton>
             <MenuList>
               {categories.map((category) => (
-                <MenuItem
-                  key={category._id}
-                  onClick={() => {
-                    setSelectedCategory(category._id)
-                  }}
-                >
-                  {category.title}
-                </MenuItem>
+                <React.Fragment key={category._id}>
+                  {category.subcategories?.length === 0 && (
+                    <MenuItem
+                      onClick={() => {
+                        setSelectedCategory(category._id)
+                      }}
+                    >
+                      {category.title}
+                    </MenuItem>
+                  )}
+                  {category.subcategories?.length !== 0 && (
+                    <MenuGroup title={category.title}>
+                      {category.subcategories?.map((subcategory) => (
+                        <MenuItem
+                          key={subcategory._id}
+                          pl={6}
+                          onClick={() => {
+                            setSelectedCategory(subcategory._id)
+                          }}
+                        >
+                          {subcategory.title}
+                        </MenuItem>
+                      ))}
+                    </MenuGroup>
+                  )}
+                </React.Fragment>
               ))}
             </MenuList>
           </Menu>
@@ -152,13 +201,16 @@ const Create = () => {
                     {line}
                   </Box>
                 ))}
-                <Box textAlign="center">
+                <Flex justify="center" gap={3}>
+                  <Button colorScheme="blue" mt={4} onClick={handleSave}>
+                    Save
+                  </Button>
                   <Link to={`/contents/${contentId}/publish`}>
                     <Button colorScheme="blue" mt={4}>
-                      Publish Results
+                      Publish
                     </Button>
                   </Link>
-                </Box>
+                </Flex>
               </Box>
             </Box>
           )}

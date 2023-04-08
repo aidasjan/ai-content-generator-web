@@ -1,3 +1,4 @@
+import { deleteContentsByProperty } from '../content'
 import PropertyModel from './property.model'
 import { type Property } from './types'
 
@@ -15,6 +16,7 @@ export const addProperty = async (resultData: Property) => {
   return result
 }
 
-export const deleteProperty = (id: string) => {
-  return PropertyModel.findByIdAndDelete(id)
+export const deleteProperty = async (id: string) => {
+  await deleteContentsByProperty(id)
+  return await PropertyModel.findByIdAndDelete(id)
 }

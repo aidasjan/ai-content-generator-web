@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import {
+  Box,
   Button,
   Flex,
   Heading,
@@ -42,31 +43,55 @@ const Categories = () => {
       </Button>
       {isLoading && <Loader />}
       {categories && !isLoading && (
-        <Table mt={6}>
-          {categories.map((category) => (
-            <Tr key={category.title}>
-              <Td>{category.title}</Td>
-              <Td>
-                <Flex w="full" justifyContent="end">
-                  <Button
-                    colorScheme="red"
-                    onClick={() => {
-                      handleDelete(category._id)
-                    }}
-                  >
-                    Delete
-                  </Button>
-                </Flex>
-              </Td>
-            </Tr>
-          ))}
-        </Table>
+        <>
+          <Table mt={6}>
+            {categories.map((category) => (
+              <>
+                <Tr>
+                  <Td>{category.title}</Td>
+                  <Td>
+                    <Flex w="full" justifyContent="end">
+                      <Button
+                        colorScheme="red"
+                        onClick={() => {
+                          handleDelete(category._id)
+                        }}
+                      >
+                        Delete
+                      </Button>
+                    </Flex>
+                  </Td>
+                </Tr>
+                {category.subcategories?.map((subcategory) => (
+                  <Tr key={subcategory._id}>
+                    <Td>
+                      <Box ml={6}>{subcategory.title}</Box>
+                    </Td>
+                    <Td>
+                      <Flex w="full" justifyContent="end">
+                        <Button
+                          colorScheme="red"
+                          onClick={() => {
+                            handleDelete(subcategory._id)
+                          }}
+                        >
+                          Delete
+                        </Button>
+                      </Flex>
+                    </Td>
+                  </Tr>
+                ))}
+              </>
+            ))}
+          </Table>
+          <AddCategoryModal
+            categories={categories}
+            isOpen={isOpen}
+            onClose={onClose}
+            fetch={fetchCategories}
+          />
+        </>
       )}
-      <AddCategoryModal
-        isOpen={isOpen}
-        onClose={onClose}
-        fetch={fetchCategories}
-      />
     </Container>
   )
 }

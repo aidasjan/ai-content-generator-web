@@ -16,7 +16,16 @@ export const publishContent = async (id: string, title: string) =>
     title
   })
 
+export const saveContent = async (id: string) =>
+  await sendRequest(`/api/contents/${id}/save`, 'POST')
+
 export const getContent = async (id: string) =>
   await sendRequest(`/api/contents/${id}`, 'GET')
 
 export const getContents = async () => await sendRequest('/api/contents', 'GET')
+
+export const getSelfContents = async () =>
+  await sendRequest('/api/contents/self', 'GET')
+
+export const deleteContent = async (id: string) =>
+  await sendRequest(`/api/contents/${id}`, 'DELETE')

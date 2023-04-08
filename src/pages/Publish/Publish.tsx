@@ -3,7 +3,7 @@ import { Box, Button, Heading, Input } from '@chakra-ui/react'
 import { Container, Loader } from 'components'
 import { type Content } from 'types/content'
 import { useNavigate, useParams } from 'react-router-dom'
-import { getContent, publishContent } from 'api/content'
+import { getContent, publishContent } from 'api/contents'
 
 const Publish = () => {
   const params = useParams()
@@ -38,7 +38,7 @@ const Publish = () => {
 
   return (
     <Container>
-      <Heading>Publish Post</Heading>
+      <Heading>Publish to Blog</Heading>
       {isLoading && <Loader />}
       {!isLoading && content && (
         <Box mt={12}>
@@ -57,7 +57,7 @@ const Publish = () => {
             ))}
           </Box>
           <Button colorScheme="blue" onClick={handleSubmit} mt={8}>
-            Publish Content
+            Publish
           </Button>
         </Box>
       )}

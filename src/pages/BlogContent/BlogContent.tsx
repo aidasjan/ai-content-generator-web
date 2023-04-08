@@ -3,7 +3,7 @@ import { Box, Flex, Heading } from '@chakra-ui/react'
 import { Container, Loader } from 'components'
 import { type Content } from 'types/content'
 import { useParams } from 'react-router-dom'
-import { getContent } from 'api/content'
+import { getContent } from 'api/contents'
 
 const BlogContent = () => {
   const params = useParams()
@@ -32,7 +32,7 @@ const BlogContent = () => {
           <Box mt={4} fontWeight="bold" color="gray.500">
             {content.category.title}
           </Box>
-          <Box backgroundColor="gray.200" p={8}>
+          <Box backgroundColor="gray.200" p={8} borderRadius="xl">
             <Heading>{content.title}</Heading>
             <Box mt={2} fontWeight="bold">
               {content.user.name} | {content.user.email}
@@ -49,7 +49,14 @@ const BlogContent = () => {
             <Heading size="sm">Properties</Heading>
             <Flex my={2}>
               {content.properties.map((property) => (
-                <Box key={property._id} backgroundColor="gray.200" mr={3} p={2}>
+                <Box
+                  key={property._id}
+                  backgroundColor="gray.200"
+                  mr={3}
+                  py={2}
+                  px={3}
+                  borderRadius="xl"
+                >
                   {property.title}
                 </Box>
               ))}
@@ -59,7 +66,14 @@ const BlogContent = () => {
             <Heading size="sm">Keywords</Heading>
             <Flex my={2}>
               {content.keywords.map((keyword) => (
-                <Box key={keyword} backgroundColor="gray.200" mr={3} p={2}>
+                <Box
+                  key={keyword}
+                  backgroundColor="gray.200"
+                  mr={3}
+                  py={2}
+                  px={3}
+                  borderRadius="xl"
+                >
                   {keyword}
                 </Box>
               ))}

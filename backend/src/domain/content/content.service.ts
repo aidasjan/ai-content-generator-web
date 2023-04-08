@@ -22,14 +22,27 @@ export const getUserContents = async (userId: string | undefined) => {
   if (!userId) {
     return null
   }
-  return await ContentModel.find({ user: { id: userId } })
+  return await ContentModel.find({ user: userId, isSaved: true }).populate(
+    'category'
+  )
 }
 
 export const publishContent = async (id: string, title: string) => {
   const existingContent = await ContentModel.findById(id)
   if (existingContent) {
     existingContent.title = title
+    existingContent.isSaved = true
     existingContent.isPublic = true
+    await existingContent.save()
+    return existingContent
+  }
+  return null
+}
+
+export const saveContent = async (id: string) => {
+  const existingContent = await ContentModel.findById(id)
+  if (existingContent) {
+    existingContent.isSaved = true
     await existingContent.save()
     return existingContent
   }
@@ -38,6 +51,18 @@ export const publishContent = async (id: string, title: string) => {
 
 export const deleteContent = (id: string) => {
   return ContentModel.findByIdAndDelete(id)
+}
+
+export const deleteContentsByCategory = (id: string) => {
+  return ContentModel.deleteMany({ category: id })
+}
+
+export const deleteContentsByUser = (id: string) => {
+  return ContentModel.deleteMany({ user: id })
+}
+
+export const deleteContentsByProperty = (id: string) => {
+  return ContentModel.deleteMany({ properties: id })
 }
 
 export const createContent = async (
@@ -76,6 +101,7 @@ export const createContent = async (
     user: user.id,
     keywords: trimmedKeywords,
     prompt,
+    isSaved: false,
     isPublic: false
   })
   newContent.save()

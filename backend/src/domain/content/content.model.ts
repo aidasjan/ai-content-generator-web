@@ -1,9 +1,10 @@
 import mongoose, { Schema } from 'mongoose'
 
-const userSchema = new mongoose.Schema({
+const contentSchema = new mongoose.Schema({
   title: String,
   content: String,
   prompt: String,
+  isSaved: Boolean,
   isPublic: Boolean,
   keywords: [String],
   user: { type: Schema.Types.ObjectId, ref: 'User' },
@@ -12,6 +13,6 @@ const userSchema = new mongoose.Schema({
   createdAt: { type: Date, default: Date.now }
 })
 
-const ContentModel = mongoose.model('Content', userSchema)
+const ContentModel = mongoose.model('Content', contentSchema)
 
 export default ContentModel

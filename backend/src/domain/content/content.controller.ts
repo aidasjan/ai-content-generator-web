@@ -5,7 +5,8 @@ import {
   getUserContents,
   publishContent,
   deleteContent,
-  createContent
+  createContent,
+  saveContent
 } from './content.service'
 
 export const getSingle = (req: Request, res: Response, next: Errback) => {
@@ -34,6 +35,14 @@ export const getAllByUser = (req: Request, res: Response, next: Errback) => {
 
 export const publish = (req: Request, res: Response, next: Errback) => {
   publishContent(req.params.id, req.body.title)
+    .then((result) => res.json(result))
+    .catch((err) => {
+      next(err)
+    })
+}
+
+export const save = (req: Request, res: Response, next: Errback) => {
+  saveContent(req.params.id)
     .then((result) => res.json(result))
     .catch((err) => {
       next(err)
