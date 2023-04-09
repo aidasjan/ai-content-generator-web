@@ -7,9 +7,9 @@ export const generatePrompt = async (
     return null
   }
 
-  const prompt = `Create ${category} that has the following properties: ${properties.join(
+  const prompt = `Create ${category} about the following topics: ${keywords.join(
     ', '
-  )}. The ${category} should include the following keywords: ${keywords.join(
+  )}. The ${category} should have the following properties: ${properties.join(
     ', '
   )}.`
 

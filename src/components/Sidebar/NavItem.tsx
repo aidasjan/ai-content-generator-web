@@ -13,7 +13,7 @@ const NavItem = ({ children, icon, target }: NavItemProps) => {
     <NavLink to={target}>
       <Flex
         align="center"
-        p={4}
+        p={3}
         mx={4}
         role="group"
         cursor="pointer"

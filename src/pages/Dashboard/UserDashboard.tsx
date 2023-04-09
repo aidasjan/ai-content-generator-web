@@ -45,11 +45,16 @@ const UserDashboard = () => {
           <Button colorScheme="blue">Create</Button>
         </Link>
       </Box>
-      <Heading size="lg" mt={8}>
+      <Heading size="lg" mt={10}>
         My Content
       </Heading>
       {isLoading && <Loader />}
-      {!isLoading && contents && (
+      {!isLoading && contents && contents.length === 0 && (
+        <Box mt={6}>
+          You have not created any content yet. Saved content will appear here.
+        </Box>
+      )}
+      {!isLoading && contents && contents.length > 0 && (
         <Box mt={6}>
           {contents.map((content) => (
             <Box

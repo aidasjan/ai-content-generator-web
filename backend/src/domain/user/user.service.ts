@@ -4,6 +4,7 @@ import UserModel from './user.model'
 import bcrypt from 'bcrypt'
 import { getRoleByCode } from '../role/role.service'
 import { type Role } from '../role/types'
+import { deleteContentsByUser } from '../content'
 
 const findUserByEmail = (email: string) => {
   return UserModel.findOne({ email }).populate('role')
@@ -59,5 +60,6 @@ export const registerUser = async (userData: User, password: string) => {
 }
 
 export const deleteUser = async (id: string) => {
+  await deleteContentsByUser(id)
   return await UserModel.findByIdAndDelete(id)
 }

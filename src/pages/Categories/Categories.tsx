@@ -51,14 +51,16 @@ const Categories = () => {
                   <Td>{category.title}</Td>
                   <Td>
                     <Flex w="full" justifyContent="end">
-                      <Button
-                        colorScheme="red"
-                        onClick={() => {
-                          handleDelete(category._id)
-                        }}
-                      >
-                        Delete
-                      </Button>
+                      {category.subcategories?.length === 0 && (
+                        <Button
+                          colorScheme="red"
+                          onClick={() => {
+                            handleDelete(category._id)
+                          }}
+                        >
+                          Delete
+                        </Button>
+                      )}
                     </Flex>
                   </Td>
                 </Tr>

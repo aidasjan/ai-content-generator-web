@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react'
 import {
   Box,
   Button,
-  Checkbox,
   Flex,
   Heading,
   Input,
@@ -162,21 +161,7 @@ const Create = () => {
           {selectedCategory && (
             <>
               <Box mt={12}>
-                <Heading mb={6}>2. Choose Properties</Heading>
-                {properties.map((property) => (
-                  <Box key={property._id}>
-                    <Checkbox
-                      onChange={() => {
-                        handlePropertyClick(property._id)
-                      }}
-                    >
-                      {property.title}
-                    </Checkbox>
-                  </Box>
-                ))}
-              </Box>
-              <Box mt={12}>
-                <Heading>3. Add Keywords</Heading>
+                <Heading>2. Add Keywords</Heading>
                 <Box my={6}>Type keywords (separated by commas)</Box>
                 <Input
                   onChange={(e) => {
@@ -184,7 +169,41 @@ const Create = () => {
                   }}
                   placeholder="artificial intelligence, programming"
                 />
-                <Button colorScheme="blue" onClick={handleSubmit} mt={8}>
+              </Box>
+              <Box mt={12}>
+                <Heading mb={6}>3. Choose Properties</Heading>
+                <Box gap={3}>
+                  {properties
+                    .sort((a, b) => a.title.localeCompare(b.title))
+                    .map((property) => (
+                      <Box
+                        key={property._id}
+                        py={2}
+                        px={3}
+                        mr={3}
+                        mt={3}
+                        borderRadius="xl"
+                        cursor="pointer"
+                        color={
+                          selectedProperties?.includes(property._id)
+                            ? 'white'
+                            : undefined
+                        }
+                        backgroundColor={
+                          selectedProperties?.includes(property._id)
+                            ? 'gray.500'
+                            : 'gray.200'
+                        }
+                        display="inline-block"
+                        onClick={() => {
+                          handlePropertyClick(property._id)
+                        }}
+                      >
+                        {property.title}
+                      </Box>
+                    ))}
+                </Box>
+                <Button colorScheme="blue" onClick={handleSubmit} mt={10}>
                   Generate Content
                 </Button>
               </Box>
