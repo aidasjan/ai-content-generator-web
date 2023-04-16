@@ -1,14 +1,15 @@
 import React, { type ReactNode } from 'react'
 import { NavLink } from 'react-router-dom'
-import { Flex, type FlexProps, Text } from '@chakra-ui/react'
+import { Flex, Box } from '@chakra-ui/react'
 
-interface NavItemProps extends FlexProps {
+interface NavItemProps {
   target: string
   icon: string
   children: ReactNode
+  onClick: () => void
 }
 
-const NavItem = ({ children, icon, target }: NavItemProps) => {
+const NavItem = ({ children, icon, target, onClick }: NavItemProps) => {
   return (
     <NavLink to={target}>
       <Flex
@@ -18,11 +19,12 @@ const NavItem = ({ children, icon, target }: NavItemProps) => {
         role="group"
         cursor="pointer"
         color="gray.500"
+        onClick={onClick}
         _hover={{
           color: 'blue.600'
         }}
       >
-        <Text className={icon} w={8}></Text>
+        <Box className={icon} w={8}></Box>
         {children}
       </Flex>
     </NavLink>

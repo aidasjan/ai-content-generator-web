@@ -36,6 +36,7 @@ const Navbar = ({ onOpen }: Props) => {
         )}
         <IconButton
           onClick={onOpen}
+          ml={4}
           aria-label="menu"
           display={{ base: 'block', lg: 'none' }}
         >

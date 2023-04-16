@@ -42,8 +42,8 @@ const Login = () => {
           />
         </Box>
       ))}
-      <Button onClick={handleSubmit} mt={5}>
-        Submit
+      <Button colorScheme="blue" onClick={handleSubmit} mt={5}>
+        Login
       </Button>
     </Container>
   )

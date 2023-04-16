@@ -9,7 +9,8 @@ import {
   MenuButton,
   MenuGroup,
   MenuItem,
-  MenuList
+  MenuList,
+  useToast
 } from '@chakra-ui/react'
 import { type Category } from 'types/category'
 import { type Property } from 'types/property'
@@ -19,6 +20,7 @@ import { useApi } from 'hooks'
 
 const Create = () => {
   const { createContent, saveContent, getCategories, getProperties } = useApi()
+  const toast = useToast()
   const [isDataLoading, setIsDataLoading] = useState(false)
   const [categories, setCategories] = useState<Category[] | null>(null)
   const [properties, setProperties] = useState<Property[] | null>(null)
@@ -100,6 +102,7 @@ const Create = () => {
       return
     }
     await saveContent(contentId)
+    toast({ status: 'success', title: 'Saved' })
   }
 
   useEffect(() => {

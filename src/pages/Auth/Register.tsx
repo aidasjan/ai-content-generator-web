@@ -71,7 +71,7 @@ const Register = () => {
           </Box>
         </Checkbox>
       </Box>
-      <Button onClick={handleSubmit} isDisabled={!isChecked} mt={5}>
+      <Button colorScheme="blue" onClick={handleSubmit} isDisabled={!isChecked} mt={5}>
         Register
       </Button>
     </Container>

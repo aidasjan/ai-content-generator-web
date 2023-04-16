@@ -67,7 +67,7 @@ const SidebarContent = ({ onClose }: SidebarProps) => {
       {items.map((item) => (
         <>
           {(!item.roles || (user && item.roles.includes(user.role))) && (
-            <NavItem target={item.to} icon={item.icon}>
+            <NavItem target={item.to} icon={item.icon} onClick={onClose}>
               {item.title}
             </NavItem>
           )}
