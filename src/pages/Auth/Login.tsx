@@ -22,8 +22,10 @@ const Login = () => {
   ]
 
   const handleSubmit = async () => {
-    await login(form.email, form.password)
-    navigate('/dashboard')
+    const isLoginSuccessful = await login(form.email, form.password)
+    if (isLoginSuccessful) {
+      navigate('/dashboard')
+    }
   }
 
   return (

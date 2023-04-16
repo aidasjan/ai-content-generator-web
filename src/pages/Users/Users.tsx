@@ -2,9 +2,10 @@ import React, { useState, useEffect } from 'react'
 import { Button, Flex, Heading, Table, Td, Tr } from '@chakra-ui/react'
 import { type User } from 'types/user'
 import { Container, Loader } from 'components'
-import { deleteUser, getUsers } from 'api/users'
+import { useApi } from 'hooks'
 
 const Users = () => {
+  const { deleteUser, getUsers } = useApi()
   const [isLoading, setIsLoading] = useState(false)
   const [users, setUsers] = useState<User[] | null>(null)
 

@@ -1,8 +1,8 @@
 import React, { useState, type ChangeEvent } from 'react'
 import { Modal } from 'components'
-import { addCategory } from 'api/categories'
 import { Box, Button, Input, Select } from '@chakra-ui/react'
 import { type Category } from 'types/category'
+import { useApi } from 'hooks'
 
 interface Props {
   categories: Category[]
@@ -12,6 +12,7 @@ interface Props {
 }
 
 const AddCategoryModal = ({ categories, isOpen, onClose, fetch }: Props) => {
+  const { addCategory } = useApi()
   const [title, setTitle] = useState<string>('')
   const [parent, setParent] = useState<string>('')
 

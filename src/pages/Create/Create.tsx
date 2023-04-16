@@ -13,13 +13,12 @@ import {
 } from '@chakra-ui/react'
 import { type Category } from 'types/category'
 import { type Property } from 'types/property'
-import { getCategories } from 'api/categories'
-import { getProperties } from 'api/properties'
 import { Container, Loader } from 'components'
-import { createContent, saveContent } from 'api/contents'
 import { Link } from 'react-router-dom'
+import { useApi } from 'hooks'
 
 const Create = () => {
+  const { createContent, saveContent, getCategories, getProperties } = useApi()
   const [isDataLoading, setIsDataLoading] = useState(false)
   const [categories, setCategories] = useState<Category[] | null>(null)
   const [properties, setProperties] = useState<Property[] | null>(null)

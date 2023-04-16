@@ -3,9 +3,10 @@ import { Box, Button, Heading, Input } from '@chakra-ui/react'
 import { Container, Loader } from 'components'
 import { type Content } from 'types/content'
 import { useNavigate, useParams } from 'react-router-dom'
-import { getContent, publishContent } from 'api/contents'
+import { useApi } from 'hooks'
 
 const Publish = () => {
+  const { getContent, publishContent } = useApi()
   const params = useParams()
   const navigate = useNavigate()
   const [isLoading, setIsLoading] = useState(false)

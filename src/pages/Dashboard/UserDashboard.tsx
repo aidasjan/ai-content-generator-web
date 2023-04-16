@@ -4,10 +4,11 @@ import { Link, useNavigate } from 'react-router-dom'
 import { Container, Loader } from 'components'
 import { useAuth } from 'providers/AuthProvider'
 import { type Content } from 'types/content'
-import { deleteContent, getSelfContents } from 'api/contents'
+import { useApi } from 'hooks'
 
 const UserDashboard = () => {
   const { user } = useAuth()
+  const { deleteContent, getSelfContents } = useApi()
   const navigate = useNavigate()
 
   const [isLoading, setIsLoading] = useState(false)

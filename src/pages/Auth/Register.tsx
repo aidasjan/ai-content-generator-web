@@ -1,11 +1,12 @@
 import React, { useState, type ChangeEvent } from 'react'
 import { Box, Button, Checkbox, Heading, Input } from '@chakra-ui/react'
 import { Container } from 'components'
-import { registerUser } from 'api/auth'
 import { useNavigate } from 'react-router-dom'
+import { useApi } from 'hooks'
 
 const Register = () => {
   const navigate = useNavigate()
+  const { registerUser } = useApi()
   const [form, setForm] = useState({ name: '', email: '', password: '' })
   const [isChecked, setIsChecked] = useState(false)
 
@@ -26,8 +27,14 @@ const Register = () => {
   ]
 
   const handleSubmit = async () => {
-    await registerUser(form.name, form.email, form.password)
-    navigate('/login')
+    const registerResult = await registerUser(
+      form.name,
+      form.email,
+      form.password
+    )
+    if (registerResult) {
+      navigate('/login')
+    }
   }
 
   return (

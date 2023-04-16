@@ -11,10 +11,11 @@ import {
 } from '@chakra-ui/react'
 import { type Category } from 'types/category'
 import { Container, Loader } from 'components'
-import { deleteCategory, getCategories } from 'api/categories'
 import AddCategoryModal from './AddCategoryModal'
+import { useApi } from 'hooks'
 
 const Categories = () => {
+  const { deleteCategory, getCategories } = useApi()
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [isLoading, setIsLoading] = useState(false)
   const [categories, setCategories] = useState<Category[] | null>(null)

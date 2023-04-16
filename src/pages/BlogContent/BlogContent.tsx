@@ -3,9 +3,10 @@ import { Box, Flex, Heading } from '@chakra-ui/react'
 import { Container, Loader } from 'components'
 import { type Content } from 'types/content'
 import { useParams } from 'react-router-dom'
-import { getContent } from 'api/contents'
+import { useApi } from 'hooks'
 
 const BlogContent = () => {
+  const { getContent } = useApi()
   const params = useParams()
   const [isLoading, setIsLoading] = useState(false)
   const [content, setContent] = useState<Content | null>(null)

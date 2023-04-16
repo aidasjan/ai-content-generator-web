@@ -3,10 +3,11 @@ import { Box, Heading, Input, SimpleGrid } from '@chakra-ui/react'
 import { Container, Loader } from 'components'
 import { type Content } from 'types/content'
 import { useNavigate } from 'react-router-dom'
-import { getContents } from 'api/contents'
+import { useApi } from 'hooks'
 
 const Blog = () => {
   const navigate = useNavigate()
+  const { getContents } = useApi()
   const [isLoading, setIsLoading] = useState(false)
   const [contents, setContents] = useState<Content[] | null>(null)
   const [searchTerm, setSearchTerm] = useState<string>('')

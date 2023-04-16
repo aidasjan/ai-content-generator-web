@@ -10,10 +10,11 @@ import {
 } from '@chakra-ui/react'
 import { Container, Loader } from 'components'
 import AddPropertyModal from './AddPropertyModal'
-import { deleteProperty, getProperties } from 'api/properties'
 import { type Property } from 'types/property'
+import { useApi } from 'hooks'
 
 const Properties = () => {
+  const { deleteProperty, getProperties } = useApi()
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [isLoading, setIsLoading] = useState(false)
   const [properties, setProperties] = useState<Property[] | null>(null)

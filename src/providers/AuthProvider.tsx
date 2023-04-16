@@ -1,11 +1,11 @@
 import React, { createContext, useContext, useState, useEffect } from 'react'
-import { loginUser } from 'api/auth'
 import { useToast } from '@chakra-ui/react'
 import { type AuthUser } from 'types/auth'
+import { useApi } from 'hooks'
 
 interface AuthInfo {
   user: AuthUser | null
-  login: (username: string, password: string) => Promise<void>
+  login: (username: string, password: string) => Promise<boolean>
   logout: () => void
 }
 
@@ -15,7 +15,7 @@ interface Props {
 
 const initialValue = {
   user: null,
-  login: async () => {},
+  login: async () => false,
   logout: () => {}
 }
 
@@ -27,6 +27,7 @@ export const useAuth = () => {
 
 const AuthProvider = ({ children }: Props) => {
   const toast = useToast()
+  const { loginUser } = useApi()
   const [user, setUser] = useState<AuthUser | null>(null)
 
   const login = async (email: string, password: string) => {
@@ -34,8 +35,10 @@ const AuthProvider = ({ children }: Props) => {
     if (loginResponse) {
       localStorage.setItem('user', JSON.stringify(loginResponse))
       setUser(loginResponse)
+      return true
     } else {
       toast({ status: 'error', title: 'The login information is incorrect' })
+      return false
     }
   }
 

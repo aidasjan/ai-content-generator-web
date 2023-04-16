@@ -1,7 +1,7 @@
 import React, { useState, type ChangeEvent } from 'react'
 import { Modal } from 'components'
-import { addProperty } from 'api/properties'
 import { Box, Button, Input } from '@chakra-ui/react'
+import { useApi } from 'hooks'
 
 interface Props {
   isOpen: boolean
@@ -10,6 +10,7 @@ interface Props {
 }
 
 const AddPropertyModal = ({ isOpen, onClose, fetch }: Props) => {
+  const { addProperty } = useApi()
   const [title, setTitle] = useState<string>('')
 
   const handleAdd = async () => {
