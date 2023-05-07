@@ -46,6 +46,9 @@ export const useApi = () => {
   const registerUser = async (name: string, email: string, password: string) =>
     await sendRequest('/api/users/register', 'POST', { name, email, password })
 
+  const makeAdmin = async (id: string) =>
+    await sendRequest(`/api/users/${id}/admin`, 'PUT')
+
   const getCategories = async () => await sendRequest('/api/categories', 'GET')
 
   const addCategory = async (title: string, parent: string | null) =>
@@ -125,6 +128,7 @@ export const useApi = () => {
     getUsers,
     deleteUser,
     editCategory,
-    editProperty
+    editProperty,
+    makeAdmin
   }
 }

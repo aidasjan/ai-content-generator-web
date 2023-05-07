@@ -5,7 +5,7 @@ import { Container, Loader } from 'components'
 import { useApi } from 'hooks'
 
 const Users = () => {
-  const { deleteUser, getUsers } = useApi()
+  const { deleteUser, getUsers, makeAdmin } = useApi()
   const [isLoading, setIsLoading] = useState(false)
   const [users, setUsers] = useState<User[] | null>(null)
 
@@ -18,6 +18,11 @@ const Users = () => {
 
   const handleDelete = async (id: string) => {
     await deleteUser(id)
+    await fetchUsers()
+  }
+
+  const handleMakeAdmin = async (id: string) => {
+    await makeAdmin(id)
     await fetchUsers()
   }
 
@@ -36,7 +41,16 @@ const Users = () => {
               <Td>{user.name}</Td>
               <Td>{user.email}</Td>
               <Td>
-                <Flex w="full" justifyContent="end">
+                <Flex w="full" justifyContent="end" gap={3}>
+                  <Button
+                    colorScheme="blue"
+                    onClick={() => {
+                      handleMakeAdmin(user._id)
+                    }}
+                    isDisabled={user.role.code === 'admin'}
+                  >
+                    Make admin
+                  </Button>
                   <Button
                     colorScheme="red"
                     onClick={() => {
