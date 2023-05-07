@@ -51,6 +51,12 @@ export const useApi = () => {
   const addCategory = async (title: string, parent: string | null) =>
     await sendRequest('/api/categories', 'POST', { title, parent })
 
+  const editCategory = async (
+    id: string,
+    title: string,
+    parent: string | null
+  ) => await sendRequest(`/api/categories/${id}`, 'PUT', { title, parent })
+
   const deleteCategory = async (id: string) =>
     await sendRequest(`/api/categories/${id}`, 'DELETE')
 
@@ -89,6 +95,9 @@ export const useApi = () => {
   const addProperty = async (title: string) =>
     await sendRequest('/api/properties', 'POST', { title })
 
+  const editProperty = async (id: string, title: string) =>
+    await sendRequest(`/api/properties/${id}`, 'PUT', { title })
+
   const deleteProperty = async (id: string) =>
     await sendRequest(`/api/properties/${id}`, 'DELETE')
 
@@ -114,6 +123,8 @@ export const useApi = () => {
     addProperty,
     deleteProperty,
     getUsers,
-    deleteUser
+    deleteUser,
+    editCategory,
+    editProperty
   }
 }

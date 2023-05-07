@@ -11,7 +11,7 @@ import {
 } from '@chakra-ui/react'
 import { type Category } from 'types/category'
 import { Container, Loader } from 'components'
-import AddCategoryModal from './AddCategoryModal'
+import AddCategoryModal from './CategoryModal'
 import { useApi } from 'hooks'
 
 const Categories = () => {
@@ -19,6 +19,7 @@ const Categories = () => {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [isLoading, setIsLoading] = useState(false)
   const [categories, setCategories] = useState<Category[] | null>(null)
+  const [editedCategory, setEditedCategory] = useState<Category | null>(null)
 
   useEffect(() => {
     fetchCategories()
@@ -39,7 +40,13 @@ const Categories = () => {
   return (
     <Container>
       <Heading>Categories</Heading>
-      <Button onClick={onOpen} mt={6}>
+      <Button
+        onClick={() => {
+          setEditedCategory(null)
+          onOpen()
+        }}
+        mt={6}
+      >
         Add new
       </Button>
       {isLoading && <Loader />}
@@ -51,7 +58,16 @@ const Categories = () => {
                 <Tr>
                   <Td>{category.title}</Td>
                   <Td>
-                    <Flex w="full" justifyContent="end">
+                    <Flex w="full" justifyContent="end" gap={3}>
+                      <Button
+                        colorScheme="blue"
+                        onClick={() => {
+                          setEditedCategory(category)
+                          onOpen()
+                        }}
+                      >
+                        Edit
+                      </Button>
                       {category.subcategories?.length === 0 && (
                         <Button
                           colorScheme="red"
@@ -71,7 +87,16 @@ const Categories = () => {
                       <Box ml={6}>{subcategory.title}</Box>
                     </Td>
                     <Td>
-                      <Flex w="full" justifyContent="end">
+                      <Flex w="full" justifyContent="end" gap={3}>
+                        <Button
+                          colorScheme="blue"
+                          onClick={() => {
+                            setEditedCategory(subcategory)
+                            onOpen()
+                          }}
+                        >
+                          Edit
+                        </Button>
                         <Button
                           colorScheme="red"
                           onClick={() => {
@@ -90,6 +115,7 @@ const Categories = () => {
           <AddCategoryModal
             categories={categories}
             isOpen={isOpen}
+            record={editedCategory}
             onClose={onClose}
             fetch={fetchCategories}
           />

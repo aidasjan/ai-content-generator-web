@@ -42,6 +42,7 @@ const Users = () => {
                     onClick={() => {
                       handleDelete(user._id)
                     }}
+                    isDisabled={user.role.code === 'admin'}
                   >
                     Delete
                   </Button>

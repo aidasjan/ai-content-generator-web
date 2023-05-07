@@ -9,7 +9,7 @@ import {
   useDisclosure
 } from '@chakra-ui/react'
 import { Container, Loader } from 'components'
-import AddPropertyModal from './AddPropertyModal'
+import AddPropertyModal from './PropertyModal'
 import { type Property } from 'types/property'
 import { useApi } from 'hooks'
 
@@ -18,6 +18,7 @@ const Properties = () => {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [isLoading, setIsLoading] = useState(false)
   const [properties, setProperties] = useState<Property[] | null>(null)
+  const [editedProperty, setEditedProperty] = useState<Property | null>(null)
 
   useEffect(() => {
     fetchProperties()
@@ -38,21 +39,36 @@ const Properties = () => {
   return (
     <Container>
       <Heading>Properties</Heading>
-      <Button onClick={onOpen} mt={6}>
+      <Button
+        onClick={() => {
+          setEditedProperty(null)
+          onOpen()
+        }}
+        mt={6}
+      >
         Add new
       </Button>
       {isLoading && <Loader />}
       {properties && !isLoading && (
         <Table mt={6}>
-          {properties.map((category) => (
-            <Tr key={category.title}>
-              <Td>{category.title}</Td>
+          {properties.map((property) => (
+            <Tr key={property.title}>
+              <Td>{property.title}</Td>
               <Td>
-                <Flex w="full" justifyContent="end">
+                <Flex w="full" justifyContent="end" gap={3}>
+                  <Button
+                    colorScheme="blue"
+                    onClick={() => {
+                      setEditedProperty(property)
+                      onOpen()
+                    }}
+                  >
+                    Edit
+                  </Button>
                   <Button
                     colorScheme="red"
                     onClick={() => {
-                      handleDelete(category._id)
+                      handleDelete(property._id)
                     }}
                   >
                     Delete
@@ -65,6 +81,7 @@ const Properties = () => {
       )}
       <AddPropertyModal
         isOpen={isOpen}
+        record={editedProperty}
         onClose={onClose}
         fetch={fetchProperties}
       />

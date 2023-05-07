@@ -1,20 +1,30 @@
-import React, { useState, type ChangeEvent } from 'react'
+import React, { useEffect, useState, type ChangeEvent } from 'react'
 import { Modal } from 'components'
 import { Box, Button, Input } from '@chakra-ui/react'
 import { useApi } from 'hooks'
+import { type Property } from 'types/property'
 
 interface Props {
   isOpen: boolean
+  record: Property | null
   onClose: () => void
   fetch: () => Promise<void>
 }
 
-const AddPropertyModal = ({ isOpen, onClose, fetch }: Props) => {
-  const { addProperty } = useApi()
+const PropertyModal = ({ isOpen, record, onClose, fetch }: Props) => {
+  const { addProperty, editProperty } = useApi()
   const [title, setTitle] = useState<string>('')
 
+  useEffect(() => {
+    setTitle(record?.title ?? '')
+  }, [record])
+
   const handleAdd = async () => {
-    await addProperty(title)
+    if (record) {
+      await editProperty(record._id, title)
+    } else {
+      await addProperty(title)
+    }
     await fetch()
     onClose()
   }
@@ -23,6 +33,7 @@ const AddPropertyModal = ({ isOpen, onClose, fetch }: Props) => {
     <Modal onClose={onClose} isOpen={isOpen}>
       <Box>Title</Box>
       <Input
+        value={title}
         onChange={(e: ChangeEvent<HTMLInputElement>) => {
           setTitle(e.target.value)
         }}
@@ -34,4 +45,4 @@ const AddPropertyModal = ({ isOpen, onClose, fetch }: Props) => {
   )
 }
 
-export default AddPropertyModal
+export default PropertyModal

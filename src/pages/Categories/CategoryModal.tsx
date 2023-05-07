@@ -1,4 +1,4 @@
-import React, { useState, type ChangeEvent } from 'react'
+import React, { useEffect, useState, type ChangeEvent } from 'react'
 import { Modal } from 'components'
 import { Box, Button, Input, Select } from '@chakra-ui/react'
 import { type Category } from 'types/category'
@@ -7,17 +7,33 @@ import { useApi } from 'hooks'
 interface Props {
   categories: Category[]
   isOpen: boolean
+  record: Category | null
   onClose: () => void
   fetch: () => Promise<void>
 }
 
-const AddCategoryModal = ({ categories, isOpen, onClose, fetch }: Props) => {
-  const { addCategory } = useApi()
+const CategoryModal = ({
+  categories,
+  record,
+  isOpen,
+  onClose,
+  fetch
+}: Props) => {
+  const { addCategory, editCategory } = useApi()
   const [title, setTitle] = useState<string>('')
   const [parent, setParent] = useState<string>('')
 
+  useEffect(() => {
+    setTitle(record?.title ?? '')
+    setParent(record?.parent?._id ?? '')
+  }, [record])
+
   const handleAdd = async () => {
-    await addCategory(title, parent === '' ? null : parent)
+    if (record) {
+      await editCategory(record._id, title, parent)
+    } else {
+      await addCategory(title, parent === '' ? null : parent)
+    }
     await fetch()
     onClose()
   }
@@ -26,12 +42,14 @@ const AddCategoryModal = ({ categories, isOpen, onClose, fetch }: Props) => {
     <Modal onClose={onClose} isOpen={isOpen}>
       <Box>Title</Box>
       <Input
+        value={title}
         onChange={(e: ChangeEvent<HTMLInputElement>) => {
           setTitle(e.target.value)
         }}
       />
       <Box mt={4}>Parent</Box>
       <Select
+        value={parent}
         onChange={(e) => {
           setParent(e.target.value)
         }}
@@ -50,4 +68,4 @@ const AddCategoryModal = ({ categories, isOpen, onClose, fetch }: Props) => {
   )
 }
 
-export default AddCategoryModal
+export default CategoryModal
