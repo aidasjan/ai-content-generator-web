@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Box, Button, Flex, Heading } from '@chakra-ui/react'
+import { Box, Button, Flex, Heading, Input } from '@chakra-ui/react'
 import { Link, useNavigate } from 'react-router-dom'
 import { Container, Loader } from 'components'
 import { useAuth } from 'providers/AuthProvider'
@@ -13,6 +13,7 @@ const UserDashboard = () => {
 
   const [isLoading, setIsLoading] = useState(false)
   const [contents, setContents] = useState<Content[] | null>(null)
+  const [searchTerm, setSearchTerm] = useState<string>('')
 
   useEffect(() => {
     fetchContents()
@@ -34,6 +35,12 @@ const UserDashboard = () => {
     return null
   }
 
+  const filteredContents = contents?.filter(
+    (content) =>
+      content.title?.toLowerCase().includes(searchTerm) ||
+      content.content.toLowerCase().includes(searchTerm)
+  )
+
   return (
     <Container>
       <Heading>Hello {user.name}</Heading>
@@ -49,15 +56,23 @@ const UserDashboard = () => {
       <Heading size="lg" mt={10}>
         My Content
       </Heading>
+      <Input
+        placeholder="Search for content..."
+        maxW="lg"
+        mt={6}
+        onChange={(e) => {
+          setSearchTerm(e.target.value)
+        }}
+      />
       {isLoading && <Loader />}
       {!isLoading && contents && contents.length === 0 && (
         <Box mt={6}>
           You have not created any content yet. Saved content will appear here.
         </Box>
       )}
-      {!isLoading && contents && contents.length > 0 && (
+      {!isLoading && filteredContents && filteredContents.length > 0 && (
         <Box mt={6}>
-          {contents.map((content) => (
+          {filteredContents.map((content) => (
             <Box
               key={content._id}
               backgroundColor="gray.200"
