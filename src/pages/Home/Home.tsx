@@ -1,6 +1,6 @@
 import React from 'react'
-import { Box, Flex, Heading, Text } from '@chakra-ui/react'
-import { Container } from 'components'
+import { Box, Divider, Flex, Heading, Text } from '@chakra-ui/react'
+import { Container, CreateContentForm } from 'components'
 
 const Home = () => {
   return (
@@ -21,10 +21,14 @@ const Home = () => {
           AI Content Generator
         </Heading>
         <Text fontSize="xl" mt={8}>
-          Automatically generate high-quality content for your blogs, articles,
-          and social media posts with AI-powered content generator
+          Generate high-quality content for your blogs, articles, and social
+          media posts with AI-powered content generator
         </Text>
       </Flex>
+      <Box px={4}>
+        <CreateContentForm />
+      </Box>
+      <Divider my={24} />
       <Box my={12}>
         <Flex align="center">
           <Box textAlign="center">

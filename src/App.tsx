@@ -3,7 +3,6 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Home from 'pages/Home/Home'
 import { Sidebar, RequireAuth } from 'components'
 import Login from 'pages/Auth/Login'
-import Register from 'pages/Auth/Register'
 import Dashboard from 'pages/Dashboard/Dashboard'
 import Categories from 'pages/Categories/Categories'
 import Properties from 'pages/Properties/Properties'
@@ -20,7 +19,7 @@ const App = () => {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
+          {/* <Route path="/register" element={<Register />} /> */}
           <Route
             path="/dashboard"
             element={
