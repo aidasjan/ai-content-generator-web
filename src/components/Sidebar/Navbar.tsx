@@ -29,9 +29,9 @@ const Navbar = ({ onOpen }: Props) => {
             <Link to="/login">
               <Button colorScheme="blue">Login</Button>
             </Link>
-            <Link to="/register">
+            {/* <Link to="/register">
               <Button>Register</Button>
-            </Link>
+            </Link> */}
           </Flex>
         )}
         <IconButton
